@@ -1,0 +1,39 @@
+program Factorial
+/******************************************************************************
+ * Description:  Computes the factorial of N. Please note that the highest value 
+ *               of N that can be processed without overflow is 0007.  
+ *               Negative N will return an answer of 1.
+ * Input:        N
+ * Output:       N!
+ ******************************************************************************/
+
+// Initialize
+10: 7101   R[1] <- 0001                  
+11: 82FF   read R[2]                     
+12: 7301   R[3] <- 0001                  
+
+// Multiply, decrement, and loop
+13: 1A30   R[A] <- R[3]                  |
+14: 1B20   R[B] <- R[2]                  |
+15: FF30   R[F] <- PC; goto 30           | function call
+16: 13C0   R[3] <- R[C]                  |
+17: 2221   R[2] <- R[2] - R[1]           
+18: D213   if (R[2] > 0) goto 13         
+
+// Print n!
+19: 93FF   write R[3]                    
+1A: 0000   halt                          
+
+function multiply
+// Input:                R[A] and R[B] (should be passed by value)
+// Return address:       R[F]
+// Output:               R[C] = R[A] * R[B]
+// Temporary variables:  R[1] = 1
+
+30: 7C00   R[C] <- 0000                  
+31: 7101   R[1] <- 0001                  
+32: CA36   if (R[A] == 0) goto 36        
+33: 1CCB   R[C] <- R[C] + R[B]           
+34: 2AA1   R[A] <- R[A] - R[1]           
+35: C032   goto 32                       
+36: EF00   goto R[F]                     

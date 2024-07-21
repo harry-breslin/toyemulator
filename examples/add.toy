@@ -1,0 +1,16 @@
+program Add
+/******************************************************************************
+ * Description:  Sums two integers
+ * Input:        Stored in memory location 00 and 01  
+ * Output:       Sum of two integers 
+ ******************************************************************************/
+
+00: 0008   constant 0x0008                   
+01: 0005   constant 0x0005                    
+02: 0000   constant 0x0000                    
+
+10: 8A00   R[A] <- M[00]                 
+11: 8B01   R[B] <- M[01]                 
+12: 1CAB   R[C] <- R[A] + R[B]           
+13: 9C02   M[02] <- R[C]                 
+14: 0000   halt                          

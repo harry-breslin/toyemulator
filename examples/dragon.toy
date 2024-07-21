@@ -1,0 +1,17 @@
+program Dragon
+/******************************************************************************
+ * Description:  Prints out (inifinite) sequence of turns to produce dragon 
+ *               curve left = 0, right = anything else
+ * Input:        -  
+ * Output:       (inifinite) sequence of turns producing a dragon curve
+ ******************************************************************************/
+
+10: 7101   R[1] <- 0001                   
+11: 7201   R[2] <- 0001                  
+12: 2321   R[3] <- R[2] - R[1]           
+13: 4423   R[4] <- R[2] ^ R[3]           
+14: 1541   R[5] <- R[4] + R[1]           
+15: 3552   R[5] <- R[5] & R[2]               
+16: 95FF   write R[5]                          
+17: 1221   R[2] <- R[2] + R[1]               
+18: D112   if (R[1] > 0) goto 12         

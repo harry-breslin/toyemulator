@@ -1,0 +1,42 @@
+program Horner's method
+/******************************************************************************
+ * Description:  polynomial evaluation via Horner's method
+ *               Idea:  p_3(x) = ((a_3 * x + a_2) * x + a_1) * x + a_0
+ *               Example 1 : to convert 765 decimal to hex, enter input
+ *                           A 2 7 6 5
+ *               Example 2:  to convert 100 1111 0011 from binary to hex, enter
+ *                           2 A 1 0 0 1 1 1 1 0 0 1 1
+ * Input:        x, n, a_n, . . ., a_2, a_1, a_0
+ * Output:       p_n(x) = a_n x^n + . . .  + a_2 x^2 + a_1 x + a_0
+ ******************************************************************************/
+
+10: 7C00   R[C] <- 0000                  result c
+11: 7101   R[1] <- 0001                  always 1
+12: 82FF   read R[2]                     read x
+13: 83FF   read R[3]                     read n
+
+14: 84FF   read R[4]                     do { read a_i
+15: 1A20   R[A] <- R[2]                  |
+16: 1BC0   R[B] <- R[C]                  |    c *= x
+17: FF30   R[F] <- PC; goto 30           |  
+18: 1CC4   R[C] <- R[C] + R[4]                c += a_i
+19: C31C   if (R[3] == 0) goto 1C        |
+1A: 2331   R[3] <- R[3] - R[1]           | } while (i-- >= 0)
+1B: C014   goto 14                       |
+
+1C: 9CFF   write R[C]                    
+1D: 0000   halt                          
+
+function multiply
+// Input:                R[A] and R[B] (should be passed by value)
+// Return address:       R[F]
+// Output:               R[C] = R[A] * R[B]
+// Temporary variables:  R[1] = 1
+
+30: 7C00   R[C] <- 0000                  
+31: 7101   R[1] <- 0001                  
+32: CA36   if (R[A] == 0) goto 36        
+33: 1CCB   R[C] <- R[C] + R[B]           
+34: 2AA1   R[A] <- R[A] - R[1]           
+35: C032   goto 32                       
+36: EF00   goto R[F]                     

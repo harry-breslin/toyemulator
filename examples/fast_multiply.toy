@@ -1,0 +1,31 @@
+program Fast Multiply 
+/******************************************************************************
+ * Description:  uses binary grade school multiplication
+ * Input:        integers a and b stored in mem[0A], mem[0B]
+ * Output:       integer c = a * b stored in mem[0C]
+ ******************************************************************************/
+
+0A: 0003   constant 0x0003               input  a
+0B: 0009   constant 0x0009               input  b
+0C: 0000   constant 0x0000               output c
+
+0D: 0000   constant 0x0000               
+0E: 0001   constant 0x0001               
+0F: 0010   constant 0x0010               
+
+10: 8A0A   R[A] <- M[0A]                 
+11: 8B0B   R[B] <- M[0B]                                
+12: 8C0D   R[C] <- M[0D]                 result
+13: 810E   R[1] <- M[0E]                 always 1
+14: 820F   R[2] <- M[0F]                 i = 16
+
+                                         do {
+15: 2221   R[2] <- R[2] - R[1]              i--
+16: 53A2   R[3] <- R[A] << R[2]             a << i
+17: 64B2   R[4] <- R[B] >> R[2]             b >> i
+18: 3441   R[4] <- R[4] & R[1]              bi = ith bit of b
+19: C41B   if (R[4] == 0) goto 1B           if bi is 1 
+1A: 1CC3   R[C] <- R[C] + R[3]                 add a << i to sum
+1B: D215   if (R[2] > 0) goto 15         }
+
+1C: 9C0C   M[0C] <- R[C]                 

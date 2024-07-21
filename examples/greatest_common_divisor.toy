@@ -1,0 +1,32 @@
+program Greatest Common Divisor
+/******************************************************************************
+ * Description:  Uses Euclid's inefficient subtraction algorithm does not handle
+ *               negative integers
+ * Input:        a, b  
+ * Output:       gcd(a, b)
+ ******************************************************************************/
+
+10: 8AFF   read R[A]                     a
+11: 8BFF   read R[B]                     b
+12: FF30   R[F] <- PC; goto 30           
+13: 9CFF   write R[C]                    gcd(a, b)
+14: 0000   halt                          
+
+function gcd
+// Input:                R[A] and R[B] (should be passed by value)
+// Return address:       R[F]
+// Output:               R[C] = gcd(R[A], R[B])
+// Temporary variables:  R[D]
+
+30: CB38   if (R[B] == 0) goto 38        while (b != 0) {
+31: 2DAB   R[D] <- R[A] - R[B]              if (b >= a) {
+32: DD36   if (R[D] > 0) goto 36               // swap and b
+33: 1DA0   R[D] <- R[A]                        temp = a;
+34: 1AB0   R[A] <- R[B]                        a = b;
+35: 1BD0   R[B] <- R[D]                        b = temp;
+//                                          }
+36: 2AAB   R[A] <- R[A] - R[B]              a -= b;
+37: C030   goto 30                       }
+
+38: 1CA0   R[C] <- R[A]                  c = a;
+39: EF00   goto R[F]                     return c;

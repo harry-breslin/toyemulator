@@ -1,0 +1,16 @@
+program Swap
+/******************************************************************************
+ * Description:  Swaps contents of two registers without using any temporary
+ *               variables.
+ * Input:        a, b
+ * Output:       b, a
+ ******************************************************************************/
+
+10: 8AFF   read R[A]                     
+11: 8BFF   read R[B]                     
+12: 4AAB   R[A] <- R[A] ^ R[B]           a ^ b
+13: 4BBA   R[B] <- R[B] ^ R[A]           b ^ (a ^ b) = a
+14: 4AAB   R[A] <- R[A] ^ R[B]           (a ^ b) ^ a = b
+15: 9AFF   write R[A]                    
+16: 9BFF   write R[B]                    
+17: 0000   halt                          

@@ -1,0 +1,12 @@
+program Stdin
+/******************************************************************************
+ * Description:  Sum of two integers
+ * Input:        Two integers from standard input
+ * Output:       The sum
+ ******************************************************************************/
+
+10: 8AFF   read R[A]                     
+11: 8BFF   read R[B]                     
+12: 1CAB   R[C] <- R[A] + R[B]           
+13: 9CFF   write R[C]                    
+14: 0000   halt                          

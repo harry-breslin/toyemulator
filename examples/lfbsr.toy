@@ -1,0 +1,54 @@
+program LFBSR
+/******************************************************************************
+ * Description:  See the lecture nots on the COS 126 webpage for details on how 
+ *               the Linear Feedback Shift Register works.
+ * Input:        Seed, and N
+ * Output:       N pseudo-random bits from the seeded shift register
+ ******************************************************************************/
+
+// Initialize
+10: 7101   R[1] <- 0001                  
+11: 82FF   read R[2]                     
+12: 9200   M[00] <- R[2]                 
+13: 82FF   read R[2]                     
+
+// Function call, print, and loop
+14: FFF0   R[F] <- PC; goto F0           
+15: 9BFF   write R[B]                    
+16: 2221   R[2] <- R[2] - R[1]           
+17: D214   if (R[2] > 0) goto 14         
+
+18: 0000   halt                          
+
+function randBit
+// Input:                -
+// Return address:       R[F]
+// Output:               R[B]
+// Temporary variables:  R[1], R[A]
+
+// Isolate the 3rd bit in R[A]
+F0: 8A00   R[A] <- M[00]                 
+F1: 7103   R[1] <- 0003                  
+F2: 6AA1   R[A] <- R[A] >> R[1]          
+
+// Isolate the 10th bit in R[B]
+F3: 8B00   R[B] <- M[00]                 
+F4: 710A   R[1] <- 000A                  
+F5: 6BB1   R[B] <- R[B] >> R[1]          
+
+F6: 7101   R[1] <- 0001                  
+F7: 3AA1   R[A] <- R[A] & R[1]           
+F8: 3BB1   R[B] <- R[B] & R[1]           
+
+// Put the xor'd value of the 3rd and 10th bits in R[B]
+F9: 4BAB   R[B] <- R[A] ^ R[B]           
+
+// Shift the register to the left by one bit, and stick the xor'd bit at the
+// right end of the shift register
+FA: 8A00   R[A] <- M[00]                 
+FB: 5AA1   R[A] <- R[A] << R[1]          
+FC: 1AAB   R[A] <- R[A] + R[B]           
+FD: 9A00   M[00] <- R[A]                 
+
+// Return the xor'd bit
+FE: EF00   goto R[F]                     

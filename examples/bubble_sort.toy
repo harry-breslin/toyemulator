@@ -1,0 +1,64 @@
+program Bubble Sort
+/******************************************************************************
+ * Description:  Please note that, due to memory limitations, the limit on N is 
+ *               00BF (191 in base 10).  If the value of N passed in is greater 
+ *               than 00BF or less than 0001, the program will behave 
+ *               unexpectedly.  Also, values above 3FFF or below C001 may cause 
+ *               an overflow error.
+ * Input:        N, a[0], a[1], ..., a[N-1]
+ * Output:       a[0] through a[N-1] in sorted order
+ ******************************************************************************/
+
+// Constant- the location of the first element of our array
+00: 0040   constant 0x0040                  (0000 0000 0100 0000,     64) 
+
+// Initialize scalars
+10: 7101   R[1] <- 0001                  
+11: 8E00   R[E] <- M[00]                 
+12: 8FFF   read R[F]                     
+
+// Initialize the array
+13: 12F0   R[2] <- R[F]                  
+
+14: 83FF   read R[3]                     
+15: 24F2   R[4] <- R[F] - R[2]           
+16: 144E   R[4] <- R[4] + R[E]           
+17: B304   M[R[4]] <- R[3]               
+18: 2221   R[2] <- R[2] - R[1]           
+19: D214   if (R[2] > 0) goto 14         
+
+// Initialize the outer counter
+1A: 12F0   R[2] <- R[F]                  
+
+// Initialize the inner counter          |  outer loop runs from N to 2
+1B: 2310   R[3] <- R[1]                  |                         (inclusive)
+//                                       |
+1C: 143E   R[4] <- R[3] + R[E]           |   |  inner loop runs R[3] from 1 to
+1D: 2441   R[4] <- R[4] - R[1]           |   |   R[2] - 1 (inclusive)
+1E: 153E   R[5] <- R[3] + R[E]           |   |
+1F: A604   R[6] <- M[R[4]]               |   |
+20: A705   R[7] <- M[R[5]]               |   |
+21: 2876   R[8] <- R[7] - R[6]           |   |
+22: D825   if (R[8] > 0) goto 25         |   |
+23: B605   M[R[5]] <- R[6]               |   |
+24: B704   M[R[4]] <- R[7]               |   |
+25: 1331   R[3] <- R[3] + R[1]           |   |
+26: 2823   R[8] <- R[2] - R[3]           |   |
+27: D81C   if (R[8] > 0) goto 1C         |   |
+//                                       |
+28: 2221   R[2] <- R[2] - R[1]           |
+29: 2821   R[8] <- R[2] - R[1]           |
+2A: D81B   if (R[8] > 0) goto 1B         |
+
+// Print out the answer
+2B: 12F0   R[2] <- R[F]                  
+
+2C: 23F2   R[3] <- R[F] - R[2]           
+2D: 133E   R[3] <- R[3] + R[E]           
+2E: A403   R[4] <- M[R[3]]               
+2F: 94FF   write R[4]                    
+30: 2221   R[2] <- R[2] - R[1]           
+31: D22C   if (R[2] > 0) goto 2C         
+
+// Halt
+32: 0000   halt                          

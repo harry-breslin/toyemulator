@@ -1,0 +1,43 @@
+program Fast multiply function
+/******************************************************************************
+ * Description:  uses binary grade school multiplication
+ * Input:        a and b
+ * Output:       product a * b
+ ******************************************************************************/
+
+// Reads in two integers into registers A and B; compute product
+// Using function call, and store result in register C
+10: 8AFF   read R[A]                     
+11: 8BFF   read R[B]                     
+12: FF30   R[F] <- PC; goto 30           
+13: 9CFF   write R[C]                    
+14: 0000   halt                          
+
+function multiply
+// Input: R[A] and R[B]
+// Return value: R[F]
+// Output: R[C] = R[A] * R[B]
+// Temporary variables:  R[1], R[2], R[3],  R[4]
+// Remarks:  let b_i denote ith bit of b
+//           b = (b_15 * 2^15) + (b_14 * 2^14) + ... + (b_0 * 2^0)
+//           a * b =  (a * b_15 * 2^15) + (a * b_14 * 2^14) + ...
+//                                             (a * b_1 * 2^1) + (a * b_0 * 2^0)
+//      We obtain a * 2^i by left shifting a by i bits
+//      This contributes a * 2^i to sum if b_i = 1; otherwise 0
+
+30: 7101   R[1] <- 0001                  
+31: 7210   R[2] <- 0010                  i = 16
+32: 7C00   R[C] <- 0000                  result
+
+33: C23B   if (R[2] == 0) goto 3B        while (i > 0) {
+34: 2221   R[2] <- R[2] - R[1]              i--
+35: 53A2   R[3] <- R[A] << R[2]             a * 2^i
+36: 64B2   R[4] <- R[B] >> R[2]          
+37: 3441   R[4] <- R[4] & R[1]              b_i = ith bit of b
+
+38: C43A   if (R[4] == 0) goto 3A        
+39: 1CC3   R[C] <- R[C] + R[3]              c += b_i * a * 2^i
+
+3A: C033   goto 33                       }
+
+3B: EF00   goto R[F]                     return

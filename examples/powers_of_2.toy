@@ -1,0 +1,13 @@
+program Powers of 2
+/******************************************************************************
+ * Description:  Prints out the positive powers of 2
+ ******************************************************************************/
+
+00: 0001   constant 0x0001                  1
+
+10: 8A00   R[A] <- M[00]                    1
+                                         while(a != 0) {
+11: 9AFF   write R[A]                       System.out.println(a)
+12: 1AAA   R[A] <- R[A] + R[A]              a = a + a
+13: DA11   if (R[A] > 0) goto 11         }
+14: 0000   halt                          

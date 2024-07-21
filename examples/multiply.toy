@@ -1,0 +1,30 @@
+program Multiply
+/******************************************************************************
+ * Description:  Multiplies two numbers. 
+ *               Inefficient.
+ * Input:        integers a and b stored in mem[0A], mem[0B]
+ * Output:       integer c = a * b stored in mem[0C]
+ ******************************************************************************/
+
+
+0A: 0003   halt                             (0000 0000 0000 0011,      3) 
+0B: 0009   halt                             (0000 0000 0000 1001,      9) 
+0C: 0000   halt                             (0000 0000 0000 0000,      0) 
+
+0D: 0000   halt                             (0000 0000 0000 0000,      0) 
+0E: 0001   halt                             (0000 0000 0000 0001,      1) 
+
+
+10: 8A0A   R[A] <- M[0A]                 a
+11: 8B0B   R[B] <- M[0B]                 b
+12: 8C0D   R[C] <- M[0D]                 c = 0;
+
+13: 810E   R[1] <- M[0E]                 always 1
+
+14: CA18   if (R[A] == 0) goto 18        while (a != 0) {
+15: 1CCB   R[C] <- R[C] + R[B]               c = c + b;
+16: 2AA1   R[A] <- R[A] - R[1]               a = a - 1;
+17: C014   goto 14                       }
+
+18: 9C0C   M[0C] <- R[C]                 
+19: 0000   halt                          

@@ -1,0 +1,16 @@
+10: 8BFF   read R[B]                     
+11: 7F01   R[F] <- 0001                  
+12: 7DFE   R[D] <- 00FE                  
+13: 7C1B   R[C] <- 001B                  
+
+14: 2EDC   R[E] <- R[D] - R[C]           
+15: CE1B   if (R[E] == 0) goto 1B        
+16: 8AFF   read R[A]                     
+17: BA0C   M[R[C]] <- R[A]               
+
+18: 1CCF   R[C] <- R[C] + R[F]           
+19: 2BBF   R[B] <- R[B] - R[F]           
+1A: DB14   if (R[B] > 0) goto 14         
+
+function returnToStart
+FE: C011   goto 11                       

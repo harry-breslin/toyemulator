@@ -1,0 +1,46 @@
+program Discriminant
+/******************************************************************************
+ * Description:  This program will not work with negative values of a, b, or c
+ *               unless you replace the Naive Multiply function with the 
+ *               function from the example program "Fast Multiply"
+ * Input:        a, b, and c 
+ * Output:       The determinant of the polynomial corresponding to ax^2 + bx+c
+ ******************************************************************************/
+
+// Initialize
+10: 85FF   read R[5]                     
+11: 86FF   read R[6]                     
+12: 87FF   read R[7]                     
+
+// Calculate b^2
+13: 1A60   R[A] <- R[6]                  |
+14: 1B60   R[B] <- R[6]                  |
+15: FF30   R[F] <- PC; goto 30           | function call
+16: 12C0   R[2] <- R[C]                  |
+
+// Calculate 4ac
+17: 7A04   R[A] <- 0004                  |
+18: 1B50   R[B] <- R[5]                  |
+19: FF30   R[F] <- PC; goto 30           | function call
+1A: 1AC0   R[A] <- R[C]                  |  |
+1B: 1B70   R[B] <- R[7]                     |
+1C: FF30   R[F] <- PC; goto 30              | function call
+
+// Print b^2 - 4ac
+1D: 222C   R[2] <- R[2] - R[C]           
+1E: 92FF   write R[2]                    
+1F: 0000   halt                          
+
+function multiply
+// Input:                R[A] and R[B] (should be passed by value)
+// Return address:       R[F]
+// Output:               R[C] = R[A] * R[B]
+// Temporary variables:  R[1] = 1
+
+30: 7C00   R[C] <- 0000                  
+31: 7101   R[1] <- 0001                  
+32: CA36   if (R[A] == 0) goto 36        
+33: 1CCB   R[C] <- R[C] + R[B]           
+34: 2AA1   R[A] <- R[A] - R[1]           
+35: C032   goto 32                       
+36: EF00   goto R[F]                     

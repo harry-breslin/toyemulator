@@ -1,0 +1,21 @@
+program Gray Code
+/******************************************************************************
+ * Description:  Prints integers from 0 to 2^n-1 in such a way that consecutive
+ *               integers differ in exactly 1 bit.
+ * Input:        Integer n (0 - E) from standard input.
+ * Output:       Gray code of order n to standard output.
+ ******************************************************************************/
+
+// Initialize
+10: 8AFF   read R[A]                        n = StdIn.readInt()
+11: 7101   R[1] <- 0001                     always 1
+12: 5B1A   R[B] <- R[1] << R[A]             i = 2^n
+
+                                         while (i != 0) {
+13: 2BB1   R[B] <- R[B] - R[1]              i = 2^n - 1
+14: 6CB1   R[C] <- R[B] >> R[1]             c = (i >> 1)
+15: 4DBC   R[D] <- R[B] ^ R[C]              d = i ^ (i >> 1)
+16: 9DFF   write R[D]                       print RD
+17: DB13   if (R[B] > 0) goto 13         }
+
+18: 0000   halt                          

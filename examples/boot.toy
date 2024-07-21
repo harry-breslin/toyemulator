@@ -1,0 +1,17 @@
+program Boot
+/******************************************************************************
+ * Description:  Loads memory sectors 10 (inclusive) through FF (exclusive) 
+ *               program from stdin.
+ * Input:        A program (239 words).
+ * Output:       -
+ ******************************************************************************/
+
+00: 7101   constant 0x7101               
+01: 7210   constant 0x7210               i = 10;
+02: 73FF   constant 0x73FF               
+//                                       do {
+03: 8AFF   constant 0x8AFF                 scanf("%hX", &a);
+04: BA02   constant 0xBA02                 mem[i] = a;
+05: 1221   constant 0x1221                 i++;
+06: 2432   constant 0x2432               
+07: D403   constant 0xD403               } while (i < 255)

@@ -1,0 +1,22 @@
+program Sum 1-N
+/******************************************************************************
+ * Description:  The sum of all integers between 1 and N inclusive.
+ *               Please note that the highest value of N that can be processed
+ *               without overflow is 00FF.
+ * Input:        N
+ * Output:       The sum.
+ ******************************************************************************/
+
+// Initialize
+10: 7101   R[1] <- 0001                  
+11: 82FF   read R[2]                     
+12: 7300   R[3] <- 0000                  
+
+// Add, decrement, and loop
+13: 1332   R[3] <- R[3] + R[2]           
+14: 2221   R[2] <- R[2] - R[1]           
+15: D213   if (R[2] > 0) goto 13         
+
+// Print the sum
+16: 93FF   write R[3]                    
+17: 0000   halt                          

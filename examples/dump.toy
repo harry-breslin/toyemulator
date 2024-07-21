@@ -1,0 +1,15 @@
+program Dump
+/******************************************************************************
+ * Description:  Prints to stdout contents of memory sectors 10 (inclusive) 
+ *               to FF (exclusive).
+ ******************************************************************************/
+
+00: 7101   constant 0x7101               
+01: 7210   constant 0x7210               i = 10;
+02: 73FF   constant 0x73FF               
+                                         do {
+03: AA02   constant 0xAA02                 a = mem[i];
+04: 9AFF   constant 0x9AFF                 printf("%hX", a);
+05: 1221   constant 0x1221                 i++;
+06: 2432   constant 0x2432               
+07: D403   constant 0xD403               } while (i < 255)

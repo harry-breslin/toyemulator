@@ -1,0 +1,16 @@
+program Echo
+/******************************************************************************
+ * Description:  Echos the standard input to the standard output
+ *               
+ * Input:        Any sequence of integers ending with 0000
+ * Output:       A copy of that sequence (without the 0000)
+ ******************************************************************************/
+
+// Loop
+10: 81FF   read R[1]                     
+11: C114   if (R[1] == 0) goto 14        
+12: 91FF   write R[1]                    
+13: C010   goto 10                       
+
+// Halt
+14: 0000   halt                          

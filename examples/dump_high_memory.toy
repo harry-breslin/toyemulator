@@ -1,0 +1,21 @@
+program Dump (high memory)
+/******************************************************************************
+ * Description:  Prints to stdout contents of memory sectors 10 (inclusive) 
+ *               to FF (exclusive).
+ ******************************************************************************/
+
+// Put your actual program here, and instead of halting at the end, jump to F0.
+10: C0F0   goto F0                       
+
+function dump
+// Input:               None
+// Return address:      None
+// Output:              None
+// Temporary variables: All registers are overwritten
+F0: 7101   R[1] <- 0001                   
+F1: 72EF   R[2] <- 00EF                   
+F2: A302   R[3] <- M[R[2]]               
+F3: 93FF   write R[3]                    
+F4: 2221   R[2] <- R[2] - R[1]           
+F5: D2F2   if (R[2] > 0) goto F2         
+F6: 0000   halt                          

@@ -1,0 +1,25 @@
+program Fibonacci (store in memory)
+/******************************************************************************
+ * Description: Computes the Nth Fibonacci number.
+ *              The highest value of N that can be processed without overflow is
+ *              0017. Values of N which are less than 1 will still store F(0) 
+ *              and F(1).
+ * Input:       N
+ * Output:      Stores Fibonacci sequence in array starting at memory address 20
+ ******************************************************************************/
+
+// Initialize
+10: 7101   R[1] <- 0001                  
+11: 7220   R[2] <- 0020                  
+12: 7310   R[3] <- 0010                                
+13: 7400   R[4] <- 0000                   
+14: 7501   R[5] <- 0001                  
+15: B502   M[R[2]] <- R[5]               
+16: 1212   R[2] <- R[1] + R[2]                
+17: 1645   R[6] <- R[4] + R[5]              
+18: 5450   R[4] <- R[5]                     
+19: 5560   R[5] <- R[6]                     
+1A: B602   M[R[2]] <- R[6]               
+1B: 2331   R[3] <- R[3] - R[1]                   
+1C: D316   if (R[3] > 0) goto 16             
+1D: 0000   halt                          
