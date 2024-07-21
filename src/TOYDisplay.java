@@ -64,7 +64,7 @@ class TOYDisplay implements ActionListener {
 	String lineNumber;
 	Instruction currentInstruction;
 	static final String NULL_REGISTER_DISPLAY = "????", // assuming registers and instructions are always length 4
-			TITLE = "TOY Emulator", USER_MANUAL_PATH = "User Manual.docx";
+			TITLE = "TOY Emulator", USER_MANUAL_PATH = "User Manual.pdf";
 	static final Font LABEL_FONT = new Font(Font.DIALOG, Font.BOLD, 14),
 			CODE_FONT = new Font(Font.MONOSPACED, Font.PLAIN, 14);
 	static Program DEFAULT_PROGRAM = new Program(null);
